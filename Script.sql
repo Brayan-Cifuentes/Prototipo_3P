@@ -173,3 +173,8 @@ CREATE TABLE actas(
  foreign key (codigo_curso) references cursos(codigo_curso)
  
 )ENGINE = InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE usuarios(
+Usuario varchar (50) not null,
+contraseña varchar(20) not null
+)ENGINE = InnoDB DEFAULT CHARSET=latin1;
