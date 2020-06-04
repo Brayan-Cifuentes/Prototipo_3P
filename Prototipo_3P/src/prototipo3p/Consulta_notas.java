@@ -16,9 +16,13 @@ import javax.swing.table.DefaultTableModel;
 
 /**
  *
- * @author Brayan Cifuentes
+ * @author Sucely Alvarez
  */
 public class Consulta_notas extends javax.swing.JInternalFrame {
+
+    String BD = "jdbc:mysql://localhost/siu";
+    String Usuario = "root";
+    String Clave = "admin";
 
     /**
      * Creates new form Consulta_notas
@@ -34,6 +38,42 @@ public class Consulta_notas extends javax.swing.JInternalFrame {
      */
     @SuppressWarnings("unchecked")
     
+    public void totalizar(){
+        double t=0;
+        double p=0;
+        if(Tbl_notas.getRowCount()>0){
+            for(int i=0;i<Tbl_notas.getRowCount();i++){
+                p=Double.parseDouble(Tbl_notas.getValueAt(i,2).toString());
+                t+=p;
+            }
+            lbl_total.setText(String.valueOf(t));
+        }
+        else{
+            JOptionPane.showMessageDialog(null, "");
+        }
+    }
+    
+     public void cbx_curso() {
+        //Codigo que permite consultar registros en la base de datos
+        try {
+            Connection cn = DriverManager.getConnection(BD, Usuario, Clave);
+            PreparedStatement pst = cn.prepareStatement("select distinct codigo_curso from asignacioncursosalumnos");
+
+            ResultSet rs = pst.executeQuery();
+
+            //llenar combobox para el comentaario
+            cbx_curso.addItem("Cursos");
+
+            while (rs.next()) {
+                cbx_curso.addItem(rs.getString("codigo_curso"));
+            }
+
+            rs.close();
+
+        } catch (Exception e) {
+
+        }
+    }
     
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -166,14 +206,119 @@ public class Consulta_notas extends javax.swing.JInternalFrame {
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
 
-        
+        cbx_curso.removeAllItems();
+        cbx_curso();
+        /*        try {
+            String ID = txtBuscar.getText();
+
+            Connection cn = DriverManager.getConnection(BD, Usuario, Clave);
+            PreparedStatement pstt4 = cn.prepareStatement("select * from notas where carnet_alumno = " + ID);
+            ResultSet rss4 = pstt4.executeQuery();
+
+            PreparedStatement pstt = cn.prepareStatement("select * from notas where carnet_alumno = " + ID);
+            ResultSet rss = pstt.executeQuery();
+            if (rss.next()) {
+                DefaultTableModel modelo = new DefaultTableModel();
+                modelo.addColumn("codigo_notas");
+                modelo.addColumn("carnet_alumno");
+                modelo.addColumn("codigo_curso");
+                modelo.addColumn("nombre_curso");
+                modelo.addColumn("tipo_nota");
+                modelo.addColumn("nota");
+
+                Tbl_notas.setModel(modelo);
+                String[] dato = new String[6];
+                while (rss4.next()) {
+                    dato[0] = rss4.getString(1);
+                    dato[1] = rss4.getString(2);
+                    dato[2] = rss4.getString(3);
+                    dato[3] = rss4.getString(4);
+                    dato[4] = rss4.getString(5);
+                    dato[5] = rss4.getString(6);
+
+                    modelo.addRow(dato);
+                }
+            }
+            else{
+                  JOptionPane.showMessageDialog(null, "El codigo de estudiante no existe");
+                   }
+
+        } catch (Exception e) {
+
+        }*/
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void cbx_cursoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbx_cursoActionPerformed
         
+        try {
+            Connection cn = DriverManager.getConnection(BD, Usuario, Clave);
+            PreparedStatement pst = cn.prepareStatement("select nombre_curso from cursos where codigo_curso=?;");
+            pst.setString(1, cbx_curso.getSelectedItem().toString());
+           // pst.setString(2, txtBuscar.getText().trim());
+            
+
+            ResultSet rs = pst.executeQuery();
+
+            //llenar combobox para el comentario
+            //cbx_curso.addItem("Curso");
+            
+            if (rs.next()) {
+                lbl_nombre.setText(rs.getString("nombre_curso"));
+            }
+
+            rs.close();
+            
+        } catch (Exception e) {
+
+        }
     }//GEN-LAST:event_cbx_cursoActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        try {
+            //String ID1 = cbx_curso.getSelectedItem().toString();
+            //String ID2 = txtBuscar.getText().trim();
+            
+            Connection cn = DriverManager.getConnection(BD, Usuario, Clave);
+            PreparedStatement pstt4 = cn.prepareStatement("select codigo_curso, tipo_nota, nota_asignacioncursoalumnos from asignacioncursosalumnos where carnet_alumno=? and codigo_curso=?");
+            pstt4.setString(1, txtBuscar.getText().trim());
+            pstt4.setString(2, cbx_curso.getSelectedItem().toString());
+            
+            ResultSet rss4 = pstt4.executeQuery();
+
+            PreparedStatement pstt = cn.prepareStatement("select codigo_curso, tipo_nota, nota_asignacioncursoalumnos from asignacioncursosalumnos where carnet_alumno=? and codigo_curso=?");
+            pstt.setString(1, txtBuscar.getText().trim());
+            pstt.setString(2, cbx_curso.getSelectedItem().toString());
+            
+            ResultSet rss = pstt.executeQuery();
+            if (rss.next()) 
+            {
+                DefaultTableModel modelo = new DefaultTableModel();
+                modelo.addColumn("codigo_curso");
+                modelo.addColumn("tipo_nota");
+                modelo.addColumn("nota_asignacioncursoalumnos");
+
+                Tbl_notas.setModel(modelo);
+                String[] dato = new String[3];
+                
+                while (rss4.next()) {
+                    dato[0] = rss4.getString(1);
+                    dato[1] = rss4.getString(2);
+                    dato[2] = rss4.getString(3);
+                    
+
+                    modelo.addRow(dato);
+                }
+            }
+            else{
+                  JOptionPane.showMessageDialog(null, "El codigo de estudiante no existe");
+                   }
+
+        } catch (Exception e) {
+
+        }
+        
+        totalizar();
         
     }//GEN-LAST:event_jButton1ActionPerformed
 

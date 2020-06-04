@@ -36,6 +36,8 @@ public class Inicio extends javax.swing.JFrame {
     private Asignacion_cursos_maestros ventana_as1;
     private Ingreso_Notas ventana_ingreso;
     private M_TipoNota ventana_tn;
+    private Registro_Acta act;
+    private Consultar_Actas consulta_acta;
     
     public Inicio() {
         initComponents();
@@ -73,8 +75,10 @@ public class Inicio extends javax.swing.JFrame {
         jMenuItem3 = new javax.swing.JMenuItem();
         jMenuItem15 = new javax.swing.JMenuItem();
         jMenuItem16 = new javax.swing.JMenuItem();
+        jMenuItem17 = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
         jMenuItem4 = new javax.swing.JMenuItem();
+        jMenuItem19 = new javax.swing.JMenuItem();
         jMenu5 = new javax.swing.JMenu();
         jMenuItem5 = new javax.swing.JMenuItem();
         jMenu6 = new javax.swing.JMenu();
@@ -206,17 +210,33 @@ public class Inicio extends javax.swing.JFrame {
         });
         jMenu3.add(jMenuItem16);
 
+        jMenuItem17.setText("Registro Actas");
+        jMenuItem17.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem17ActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jMenuItem17);
+
         jMenuBar1.add(jMenu3);
 
         jMenu4.setText("Informes");
 
-        jMenuItem4.setText("Consultas");
+        jMenuItem4.setText("Consulta Notas");
         jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem4ActionPerformed(evt);
             }
         });
         jMenu4.add(jMenuItem4);
+
+        jMenuItem19.setText("Consulta Actas");
+        jMenuItem19.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem19ActionPerformed(evt);
+            }
+        });
+        jMenu4.add(jMenuItem19);
 
         jMenuBar1.add(jMenu4);
 
@@ -256,7 +276,7 @@ public class Inicio extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu2);
 
-        jMenu7.setText("Brayan Cifuentes, 9959-18-11113");
+        jMenu7.setText("                                                 Brayan Cifuentes, 9959-18-11113");
         jMenuBar1.add(jMenu7);
 
         setJMenuBar(jMenuBar1);
@@ -465,6 +485,30 @@ public class Inicio extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
+    private void jMenuItem17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem17ActionPerformed
+        // TODO add your handling code here:
+        act= new Registro_Acta();
+        jDesktopPane1.add(act);
+        
+        //centrar intenal
+        Dimension desktopSize = jDesktopPane1.getSize();
+        Dimension FrameSize = act.getSize();
+        act.setLocation((desktopSize.width - FrameSize.width)/2, (desktopSize.height- FrameSize.height)/2);
+        act.show();
+    }//GEN-LAST:event_jMenuItem17ActionPerformed
+
+    private void jMenuItem19ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem19ActionPerformed
+        // TODO add your handling code here:
+        consulta_acta= new Consultar_Actas();
+        jDesktopPane1.add (consulta_acta);
+        
+        //centrar intenal
+        Dimension desktopSize = jDesktopPane1.getSize();
+        Dimension FrameSize = consulta_acta.getSize();
+        consulta_acta.setLocation((desktopSize.width - FrameSize.width)/2, (desktopSize.height- FrameSize.height)/2);
+        consulta_acta.show();
+    }//GEN-LAST:event_jMenuItem19ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -521,7 +565,9 @@ public class Inicio extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem14;
     private javax.swing.JMenuItem jMenuItem15;
     private javax.swing.JMenuItem jMenuItem16;
+    private javax.swing.JMenuItem jMenuItem17;
     private javax.swing.JMenuItem jMenuItem18;
+    private javax.swing.JMenuItem jMenuItem19;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;

@@ -147,18 +147,29 @@ CREATE TABLE asignacioncursosmastros
 
 
 -- -----------------------------------------------------
--- Table `educativo`.`Usuarios`
--- -----------------------------------------------------
-CREATE TABLE usuarios
-(
-usuario VARCHAR(60) primary key,
-contraseña varchar(60) not null
-) ENGINE = InnoDB DEFAULT CHARSET=latin1;
-
--- -----------------------------------------------------
--- Table `tipo_nota`.`Usuarios`
+-- Table `tipo_nota`.`Usuarios` (Para los parciales)
 -- -----------------------------------------------------
 CREATE TABLE tipo_notas(
 id_tipo int primary key auto_increment,
 nombre_tipo varchar(50)
+)ENGINE = InnoDB DEFAULT CHARSET=latin1;
+
+
+-- -----------------------------------------------------
+-- Table Actas
+-- -----------------------------------------------------
+-- drop table actas;
+
+CREATE TABLE actas(
+ codigo_maestro VARCHAR(5),
+ carnet_alumno VARCHAR(15),
+ codigo_curso VARCHAR(5),
+ examen VARCHAR(50),
+ asistencia varchar(10),
+ 
+ -- foraneas
+ foreign key (codigo_maestro) references maestros (codigo_maestro),
+ foreign key (carnet_alumno) references alumnos (carnet_alumno),
+ foreign key (codigo_curso) references cursos(codigo_curso)
+ 
 )ENGINE = InnoDB DEFAULT CHARSET=latin1;

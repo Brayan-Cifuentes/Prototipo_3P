@@ -18,9 +18,21 @@ public class Asignacion_cursos_alumno extends javax.swing.JInternalFrame {
     /**
      * Creates new form Empleados
      */
+    String BD = "jdbc:mysql://localhost/siu";
+    String Usuario = "root";
+    String Clave = "admin";
+
 
     public Asignacion_cursos_alumno() {
         initComponents();
+        //consultar combobox
+        cbx_carrera();
+        cbx_sede();
+        cbx_jornada();
+        cbx_seccion();
+        cbx_Aula();
+        cbx_cursos();
+        cbx_alumno();
     }
 
     /**
@@ -30,6 +42,206 @@ public class Asignacion_cursos_alumno extends javax.swing.JInternalFrame {
      */
     @SuppressWarnings("unchecked")
 
+    public void Tabla() {
+        try {
+
+            Connection cn = DriverManager.getConnection(BD, Usuario, Clave);
+
+            PreparedStatement ps = cn.prepareStatement("select * from asignacioncursosalumnos;");
+            PreparedStatement ps2 = cn.prepareStatement("select * from asignacioncursosalumnos;");
+            //pstt4.setString(1, txt_buscar.getText().trim());
+
+            ResultSet rs = ps.executeQuery();
+
+            ResultSet rss = ps2.executeQuery();
+
+            if (rs.next()) {
+
+                DefaultTableModel modelo = new DefaultTableModel();
+
+                modelo.addColumn("codigo_carrera");
+                modelo.addColumn("codigo_sede");
+                modelo.addColumn("codigo_jornada");
+                modelo.addColumn("codigo_seccion");
+                modelo.addColumn("codigo_aula");
+                modelo.addColumn("codigo_curso");
+                modelo.addColumn("carnet_alumno");
+
+                tbl_asignacion.setModel(modelo);
+
+                String[] dato = new String[7];
+
+                while (rss.next()) {
+                    dato[0] = rss.getString(1);
+                    dato[1] = rss.getString(2);
+                    dato[2] = rss.getString(3);
+                    dato[3] = rss.getString(4);
+                    dato[4] = rss.getString(5);
+                    dato[5] = rss.getString(6);
+                    dato[6] = rss.getString(7);
+
+                    modelo.addRow(dato);
+                }
+            }
+
+        } catch (Exception e) {
+
+        }
+    }
+
+    public void cbx_carrera() {
+        //Codigo que permite consultar registros en la base de datos
+        try {
+            Connection cn = DriverManager.getConnection(BD, Usuario, Clave);
+            PreparedStatement pst = cn.prepareStatement("select nombre_carrera from carreras");
+
+            ResultSet rs = pst.executeQuery();
+
+            //llenar combobox para el comentaario
+            cbx_carrera.addItem("Carrera");
+
+            while (rs.next()) {
+                cbx_carrera.addItem(rs.getString("nombre_carrera"));
+            }
+
+            rs.close();
+
+        } catch (Exception e) {
+
+        }
+    }
+
+    public void cbx_sede() {
+        //Codigo que permite consultar registros en la base de datos
+        try {
+            Connection cn = DriverManager.getConnection(BD, Usuario, Clave);
+            PreparedStatement pst = cn.prepareStatement("select nombre_sede from sedes");
+
+            ResultSet rs = pst.executeQuery();
+
+            //llenar combobox para el comentaario
+            cbx_sede.addItem("Sede");
+
+            while (rs.next()) {
+                cbx_sede.addItem(rs.getString("nombre_sede"));
+            }
+
+            rs.close();
+
+        } catch (Exception e) {
+
+        }
+    }
+
+    public void cbx_jornada() {
+        //Codigo que permite consultar registros en la base de datos
+        try {
+            Connection cn = DriverManager.getConnection(BD, Usuario, Clave);
+            PreparedStatement pst = cn.prepareStatement("select nombre_jornada from jornadas");
+
+            ResultSet rs = pst.executeQuery();
+
+            //llenar combobox para el comentaario
+            cbx_jornada.addItem("Jornada");
+
+            while (rs.next()) {
+                cbx_jornada.addItem(rs.getString("nombre_jornada"));
+            }
+
+            rs.close();
+
+        } catch (Exception e) {
+
+        }
+    }
+
+    public void cbx_seccion() {
+        //Codigo que permite consultar registros en la base de datos
+        try {
+            Connection cn = DriverManager.getConnection(BD, Usuario, Clave);
+            PreparedStatement pst = cn.prepareStatement("select nombre_seccion from secciones");
+
+            ResultSet rs = pst.executeQuery();
+
+            //llenar combobox para el comentaario
+            cbx_seccion.addItem("Secciones");
+
+            while (rs.next()) {
+                cbx_seccion.addItem(rs.getString("nombre_seccion"));
+            }
+
+            rs.close();
+
+        } catch (Exception e) {
+
+        }
+    }
+
+    public void cbx_Aula() {
+        //Codigo que permite consultar registros en la base de datos
+        try {
+            Connection cn = DriverManager.getConnection(BD, Usuario, Clave);
+            PreparedStatement pst = cn.prepareStatement("select nombre_aula from aulas");
+
+            ResultSet rs = pst.executeQuery();
+
+            //llenar combobox para el comentaario
+            cbx_aula.addItem("Aulas");
+
+            while (rs.next()) {
+                cbx_aula.addItem(rs.getString("nombre_aula"));
+            }
+
+            rs.close();
+
+        } catch (Exception e) {
+
+        }
+    }
+
+    public void cbx_cursos() {
+        //Codigo que permite consultar registros en la base de datos
+        try {
+            Connection cn = DriverManager.getConnection(BD, Usuario, Clave);
+            PreparedStatement pst = cn.prepareStatement("select nombre_curso from cursos");
+
+            ResultSet rs = pst.executeQuery();
+
+            //llenar combobox para el comentaario
+            cbx_curso.addItem("Cursos");
+
+            while (rs.next()) {
+                cbx_curso.addItem(rs.getString("nombre_curso"));
+            }
+
+            rs.close();
+
+        } catch (Exception e) {
+
+        }
+    }
+
+    public void cbx_alumno() {
+        //Codigo que permite consultar registros en la base de datos
+        try {
+            Connection cn = DriverManager.getConnection(BD, Usuario, Clave);
+            PreparedStatement pst = cn.prepareStatement("select nombre_alumno from alumnos");
+
+            ResultSet rs = pst.executeQuery();
+
+            //llenar combobox para el comentaario
+            cbx_alumno.addItem("Alumno");
+
+            while (rs.next()) {
+                cbx_alumno.addItem(rs.getString("nombre_alumno"));
+            }
+
+            rs.close();
+
+        } catch (Exception e) {
+
+        }
+    }
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
@@ -282,19 +494,174 @@ public class Asignacion_cursos_alumno extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+//Codigo que permite consultar registros en la base de datos
+        try {
 
+            Connection cn = DriverManager.getConnection(BD, Usuario, Clave);
+
+            PreparedStatement pstt4 = cn.prepareStatement("select * from asignacioncursosalumnos where carnet_alumno=?");
+            pstt4.setString(1, txt_buscar.getText().trim());
+
+            ResultSet rss4 = pstt4.executeQuery();
+
+            // hacer la copia del query para que la tabla empiece desde 1
+            PreparedStatement ps = cn.prepareStatement("select * from asignacioncursosalumnos where carnet_alumno=?");
+            ps.setString(1, txt_buscar.getText().trim());
+
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+
+                DefaultTableModel modelo = new DefaultTableModel();
+
+                modelo.addColumn("codigo_carrera");
+                modelo.addColumn("codigo_sede");
+                modelo.addColumn("codigo_jornada");
+                modelo.addColumn("codigo_seccion");
+                modelo.addColumn("codigo_aula");
+                modelo.addColumn("codigo_curso");
+                modelo.addColumn("carnet_alumno");
+
+                tbl_asignacion.setModel(modelo);
+
+                String[] dato = new String[7];
+
+                while (rss4.next()) {
+                    dato[0] = rss4.getString(1);
+                    dato[1] = rss4.getString(2);
+                    dato[2] = rss4.getString(3);
+                    dato[3] = rss4.getString(4);
+                    dato[4] = rss4.getString(5);
+                    dato[5] = rss4.getString(6);
+                    dato[6] = rss4.getString(7);
+                    modelo.addRow(dato);
+
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Alumno no Registrado");
+            }
+
+        } catch (Exception e) {
+
+        }
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+//Codigo que permite insertar registros en al base de datos
+        try {
+            Connection cn = DriverManager.getConnection(BD, Usuario, Clave);
+            PreparedStatement pst = cn.prepareStatement("insert into asignacioncursosalumnos values(?,?,?,?,?,?,?,?,?)");
 
+            pst.setString(1, lbl_carrera.getText().trim());
+            pst.setString(2, lbl_sede.getText().trim());
+            pst.setString(3, lbl_jornada.getText().trim());
+            pst.setString(4, lbl_seccion.getText().trim());
+            pst.setString(5, lbl_aula.getText().trim());
+            pst.setString(6, lbl_curso.getText().trim());
+            pst.setString(7, lbl_alumno.getText().trim());
+            pst.setString(8, "0");
+            pst.setString(9, null);
+
+
+            pst.executeUpdate();
+
+            cbx_carrera.setSelectedIndex(0);
+            cbx_sede.setSelectedIndex(0);
+            cbx_jornada.setSelectedIndex(0);
+            cbx_seccion.setSelectedIndex(0);
+            cbx_aula.setSelectedIndex(0);
+            cbx_curso.setSelectedIndex(0);
+            cbx_alumno.setSelectedIndex(0);
+
+            lbl_carrera.setText("Codigo");
+            lbl_sede.setText("Codigo");
+            lbl_jornada.setText("Codigo");
+            lbl_seccion.setText("Codigo");
+            lbl_aula.setText("Codigo");
+            lbl_curso.setText("Codigo");
+            lbl_alumno.setText("Codigo");
+
+            JOptionPane.showMessageDialog(this, "¡REGISTRO EXITOSO!", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
+            Tabla();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "¡Error en registro!", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+//Codigo que permite modificar registros en la base de datos
+        try {
+            String ID = lbl_carrera.getText().trim();
 
+            Connection cn = DriverManager.getConnection(BD, Usuario, Clave);
+            PreparedStatement pst = cn.prepareStatement("update asignacioncursosalumnos set codigo_carrera= ?, codigo_sede=?, codigo_jornada=?, codigo_seccion=?, codigo_aula=?, codigo_curso=?, carnet_alumno=? where codigo_carrera = " + ID);
+
+            pst.setString(1, lbl_carrera.getText().trim());
+            pst.setString(2, lbl_sede.getText().trim());
+            pst.setString(3, lbl_jornada.getText().trim());
+            pst.setString(4, lbl_seccion.getText().trim());
+            pst.setString(5, lbl_aula.getText().trim());
+            pst.setString(6, lbl_curso.getText().trim());
+            pst.setString(7, lbl_alumno.getText().trim());
+
+            pst.executeUpdate();
+
+            cbx_carrera.setSelectedIndex(0);
+            cbx_sede.setSelectedIndex(0);
+            cbx_jornada.setSelectedIndex(0);
+            cbx_seccion.setSelectedIndex(0);
+            cbx_aula.setSelectedIndex(0);
+            cbx_curso.setSelectedIndex(0);
+            cbx_alumno.setSelectedIndex(0);
+
+            lbl_carrera.setText("Codigo");
+            lbl_sede.setText("Codigo");
+            lbl_jornada.setText("Codigo");
+            lbl_seccion.setText("Codigo");
+            lbl_aula.setText("Codigo");
+            lbl_curso.setText("Codigo");
+            lbl_alumno.setText("Codigo");
+
+            JOptionPane.showMessageDialog(this, "¡MODIFICACION EXITOSA!", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
+            Tabla();
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error en modificación", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
+        }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+//Codigo que permite borrar registros en la base de datos
+        try {
 
+            Connection cn = DriverManager.getConnection(BD, Usuario, Clave);
+            PreparedStatement pst = cn.prepareStatement("delete from asignacioncursosalumnos where codigo_carrera = ?");
+
+            pst.setString(1, lbl_carrera.getText().trim());
+            pst.executeUpdate();
+
+            cbx_carrera.setSelectedIndex(0);
+            cbx_sede.setSelectedIndex(0);
+            cbx_jornada.setSelectedIndex(0);
+            cbx_seccion.setSelectedIndex(0);
+            cbx_aula.setSelectedIndex(0);
+            cbx_curso.setSelectedIndex(0);
+            cbx_alumno.setSelectedIndex(0);
+
+            lbl_carrera.setText("Codigo");
+            lbl_sede.setText("Codigo");
+            lbl_jornada.setText("Codigo");
+            lbl_seccion.setText("Codigo");
+            lbl_aula.setText("Codigo");
+            lbl_curso.setText("Codigo");
+            lbl_alumno.setText("Codigo");
+
+            JOptionPane.showMessageDialog(this, "¡ELIMINACION EXITOSA!", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
+            Tabla();
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error en eliminación", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
+        }
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void cbx_seccionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cbx_seccionMouseClicked
@@ -302,7 +669,24 @@ public class Asignacion_cursos_alumno extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_cbx_seccionMouseClicked
 
     private void cbx_seccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbx_seccionActionPerformed
-      
+        // TODO add your handling code here:
+        try {
+            Connection cn = DriverManager.getConnection(BD, Usuario, Clave);
+            PreparedStatement pst = cn.prepareStatement("select codigo_seccion from secciones where nombre_seccion=?");
+            pst.setString(1, cbx_seccion.getSelectedItem().toString());
+
+            ResultSet rs = pst.executeQuery();
+
+            //llenar combobox para el comentaario
+            //cbx_facultad.addItem("Facultad");
+            if (rs.next()) {
+                lbl_seccion.setText(rs.getString("codigo_seccion"));
+            }
+
+            //rs.close();
+        } catch (Exception e) {
+
+        }
     }//GEN-LAST:event_cbx_seccionActionPerformed
 
     private void cbx_aulaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cbx_aulaMouseClicked
@@ -310,7 +694,24 @@ public class Asignacion_cursos_alumno extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_cbx_aulaMouseClicked
 
     private void cbx_aulaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbx_aulaActionPerformed
-      
+        // TODO add your handling code here:
+        try {
+            Connection cn = DriverManager.getConnection(BD, Usuario, Clave);
+            PreparedStatement pst = cn.prepareStatement("select codigo_aula from aulas where nombre_aula=?");
+            pst.setString(1, cbx_aula.getSelectedItem().toString());
+
+            ResultSet rs = pst.executeQuery();
+
+            //llenar combobox para el comentaario
+            //cbx_facultad.addItem("Facultad");
+            if (rs.next()) {
+                lbl_aula.setText(rs.getString("codigo_aula"));
+            }
+
+            //rs.close();
+        } catch (Exception e) {
+
+        }
     }//GEN-LAST:event_cbx_aulaActionPerformed
 
     private void cbx_cursoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cbx_cursoMouseClicked
@@ -318,7 +719,24 @@ public class Asignacion_cursos_alumno extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_cbx_cursoMouseClicked
 
     private void cbx_cursoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbx_cursoActionPerformed
-       
+        // TODO add your handling code here:
+        try {
+            Connection cn = DriverManager.getConnection(BD, Usuario, Clave);
+            PreparedStatement pst = cn.prepareStatement("select codigo_curso from cursos where nombre_curso=?");
+            pst.setString(1, cbx_curso.getSelectedItem().toString());
+
+            ResultSet rs = pst.executeQuery();
+
+            //llenar combobox para el comentaario
+            //cbx_facultad.addItem("Facultad");
+            if (rs.next()) {
+                lbl_curso.setText(rs.getString("codigo_curso"));
+            }
+
+            //rs.close();
+        } catch (Exception e) {
+
+        }
     }//GEN-LAST:event_cbx_cursoActionPerformed
 
     private void cbx_alumnoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cbx_alumnoMouseClicked
@@ -326,16 +744,134 @@ public class Asignacion_cursos_alumno extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_cbx_alumnoMouseClicked
 
     private void cbx_alumnoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbx_alumnoActionPerformed
-     
+        // TODO add your handling code here:
+        try {
+            Connection cn = DriverManager.getConnection(BD, Usuario, Clave);
+            PreparedStatement pst = cn.prepareStatement("select carnet_alumno from alumnos where nombre_alumno=?");
+            pst.setString(1, cbx_alumno.getSelectedItem().toString());
+
+            ResultSet rs = pst.executeQuery();
+
+            //llenar combobox para el comentaario
+            //cbx_facultad.addItem("Facultad");
+            if (rs.next()) {
+                lbl_alumno.setText(rs.getString("carnet_alumno"));
+            }
+
+            //rs.close();
+        } catch (Exception e) {
+
+        }
     }//GEN-LAST:event_cbx_alumnoActionPerformed
 
     private void tbl_asignacionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_asignacionMouseClicked
-      
+        // TODO add your handling code here:
+        int seleccionar = tbl_asignacion.rowAtPoint(evt.getPoint());
+
+        /*cbx_carrera.setSelectedItem(valueOf(tbl_asignacion.getValueAt(seleccionar, 0)));
+        cbx_sede.setSelectedItem(valueOf(tbl_asignacion.getValueAt(seleccionar, 1)));
+        cbx_jornada.setSelectedItem(valueOf(tbl_asignacion.getValueAt(seleccionar, 2)));
+        cbx_seccion.setSelectedItem(valueOf(tbl_asignacion.getValueAt(seleccionar, 3)));
+        cbx_aula.setSelectedItem(valueOf(tbl_asignacion.getValueAt(seleccionar, 4)));
+        cbx_curso.setSelectedItem(valueOf(tbl_asignacion.getValueAt(seleccionar, 5)));
+        cbx_maestro.setSelectedItem(valueOf(tbl_asignacion.getValueAt(seleccionar, 6)));*/
+        
+        lbl_carrera.setText(String.valueOf(tbl_asignacion.getValueAt(seleccionar, 0)));
+        lbl_sede.setText(String.valueOf(tbl_asignacion.getValueAt(seleccionar, 1)));
+        lbl_jornada.setText(String.valueOf(tbl_asignacion.getValueAt(seleccionar, 2)));
+        lbl_seccion.setText(String.valueOf(tbl_asignacion.getValueAt(seleccionar, 3)));
+        lbl_aula.setText(String.valueOf(tbl_asignacion.getValueAt(seleccionar, 4)));
+        lbl_curso.setText(String.valueOf(tbl_asignacion.getValueAt(seleccionar, 5)));
+        lbl_alumno.setText(String.valueOf(tbl_asignacion.getValueAt(seleccionar, 6)));
+
+        try {
+            Connection cn = DriverManager.getConnection(BD, Usuario, Clave);
+            PreparedStatement pst = cn.prepareStatement("select nombre_carrera from carreras where codigo_carrera=?;");
+            pst.setString(1, lbl_carrera.getText());
+            ResultSet rs = pst.executeQuery();
+
+            if (rs.next()) {
+                cbx_carrera.setSelectedItem(rs.getString("nombre_carrera"));
+            }
+        } catch (Exception e) {
+        }
+
+        try {
+            Connection cn = DriverManager.getConnection(BD, Usuario, Clave);
+            PreparedStatement pst = cn.prepareStatement("select nombre_sede from sedes where codigo_sede=?;");
+            pst.setString(1, lbl_sede.getText());
+            ResultSet rs = pst.executeQuery();
+
+            if (rs.next()) {
+                cbx_sede.setSelectedItem(rs.getString("nombre_sede"));
+            }
+        } catch (Exception e) {
+        }
+
+        try {
+            Connection cn = DriverManager.getConnection(BD, Usuario, Clave);
+            PreparedStatement pst = cn.prepareStatement("select nombre_jornada from jornadas where codigo_jornada=?;");
+            pst.setString(1, lbl_jornada.getText());
+            ResultSet rs = pst.executeQuery();
+
+            if (rs.next()) {
+                cbx_jornada.setSelectedItem(rs.getString("nombre_jornada"));
+            }
+        } catch (Exception e) {
+        }
+
+        try {
+            Connection cn = DriverManager.getConnection(BD, Usuario, Clave);
+            PreparedStatement pst = cn.prepareStatement("select nombre_seccion from secciones where codigo_seccion=?;");
+            pst.setString(1, lbl_seccion.getText());
+            ResultSet rs = pst.executeQuery();
+
+            if (rs.next()) {
+                cbx_seccion.setSelectedItem(rs.getString("nombre_seccion"));
+            }
+        } catch (Exception e) {
+        }
+
+        try {
+            Connection cn = DriverManager.getConnection(BD, Usuario, Clave);
+            PreparedStatement pst = cn.prepareStatement("select nombre_aula from aulas where codigo_aula=?;");
+            pst.setString(1, lbl_aula.getText());
+            ResultSet rs = pst.executeQuery();
+
+            if (rs.next()) {
+                cbx_aula.setSelectedItem(rs.getString("nombre_aula"));
+            }
+        } catch (Exception e) {
+        }
+
+        try {
+            Connection cn = DriverManager.getConnection(BD, Usuario, Clave);
+            PreparedStatement pst = cn.prepareStatement("select nombre_curso from cursos where codigo_curso=?;");
+            pst.setString(1, lbl_curso.getText());
+            ResultSet rs = pst.executeQuery();
+
+            if (rs.next()) {
+                cbx_curso.setSelectedItem(rs.getString("nombre_curso"));
+            }
+        } catch (Exception e) {
+        }
+
+        try {
+            Connection cn = DriverManager.getConnection(BD, Usuario, Clave);
+            PreparedStatement pst = cn.prepareStatement("select nombre_alumno from alumnos where carnet_alumno=?;");
+            pst.setString(1, lbl_alumno.getText());
+            ResultSet rs = pst.executeQuery();
+
+            if (rs.next()) {
+                cbx_alumno.setSelectedItem(rs.getString("nombre_alumno"));
+            }
+        } catch (Exception e) {
+        }
     }//GEN-LAST:event_tbl_asignacionMouseClicked
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // TODO add your handling code here:
-        
+        Tabla();
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void cbx_sedeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cbx_sedeMouseClicked
@@ -343,7 +879,24 @@ public class Asignacion_cursos_alumno extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_cbx_sedeMouseClicked
 
     private void cbx_sedeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbx_sedeActionPerformed
-        
+        // TODO add your handling code here:
+        try {
+            Connection cn = DriverManager.getConnection(BD, Usuario, Clave);
+            PreparedStatement pst = cn.prepareStatement("select codigo_sede from sedes where nombre_sede=?");
+            pst.setString(1, cbx_sede.getSelectedItem().toString());
+
+            ResultSet rs = pst.executeQuery();
+
+            //llenar combobox para el comentaario
+            //cbx_facultad.addItem("Facultad");
+            if (rs.next()) {
+                lbl_sede.setText(rs.getString("codigo_sede"));
+            }
+
+            //rs.close();
+        } catch (Exception e) {
+
+        }
     }//GEN-LAST:event_cbx_sedeActionPerformed
 
     private void cbx_carreraMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cbx_carreraMouseClicked
@@ -352,7 +905,24 @@ public class Asignacion_cursos_alumno extends javax.swing.JInternalFrame {
 
     private void cbx_carreraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbx_carreraActionPerformed
 
-       
+        // TODO add your handling code here:
+        try {
+            Connection cn = DriverManager.getConnection(BD, Usuario, Clave);
+            PreparedStatement pst = cn.prepareStatement("select codigo_carrera from carreras where nombre_carrera=?");
+            pst.setString(1, cbx_carrera.getSelectedItem().toString());
+
+            ResultSet rs = pst.executeQuery();
+
+            //llenar combobox para el comentaario
+            //cbx_facultad.addItem("Facultad");
+            if (rs.next()) {
+                lbl_carrera.setText(rs.getString("codigo_carrera"));
+            }
+
+            //rs.close();
+        } catch (Exception e) {
+
+        }
     }//GEN-LAST:event_cbx_carreraActionPerformed
 
     private void cbx_jornadaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cbx_jornadaMouseClicked
@@ -360,7 +930,24 @@ public class Asignacion_cursos_alumno extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_cbx_jornadaMouseClicked
 
     private void cbx_jornadaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbx_jornadaActionPerformed
-       
+        // TODO add your handling code here:
+        try {
+            Connection cn = DriverManager.getConnection(BD, Usuario, Clave);
+            PreparedStatement pst = cn.prepareStatement("select codigo_jornada from jornadas where nombre_jornada=?");
+            pst.setString(1, cbx_jornada.getSelectedItem().toString());
+
+            ResultSet rs = pst.executeQuery();
+
+            //llenar combobox para el comentaario
+            //cbx_facultad.addItem("Facultad");
+            if (rs.next()) {
+                lbl_jornada.setText(rs.getString("codigo_jornada"));
+            }
+
+            //rs.close();
+        } catch (Exception e) {
+
+        }
     }//GEN-LAST:event_cbx_jornadaActionPerformed
 
 
